@@ -1,2 +1,4 @@
 # Show tab completion options after first tab
 set show-all-if-ambiguous on
+# Ignore case for tab completion
+set completion-ignore-case On
