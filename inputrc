@@ -1,0 +1,2 @@
+# Show tab completion options after first tab
+set show-all-if-ambiguous on
