@@ -42,8 +42,9 @@ colorscheme zellner
 " Use mouse, but only in normal mode. Yay!
 set mouse=n
 
-" Expand tabs to spaces for Python files
-au FileType python set expandtab
+" Time before CursorHold event is fired -- makes pythonhelper.vim more
+" responsive.
+set updatetime=100
 
 " Tab completion behavior:
 set wildmode=longest,list,full
@@ -78,3 +79,31 @@ map Y y$
 
 " automatically reload vimrc when it's saved
 au BufWritePost .vimrc so ~/.vimrc
+
+
+
+" Python specific settings:
+" Expand tabs to spaces:
+au FileType python set expandtab
+" Folding options:
+au FileType python set foldmethod=indent
+" Use space to open/close folds:
+au FileType python nnoremap <space> za
+au FileType python vnoremap <space> zf
+au FileType python set foldnestmax=2 "Fold methods but not for-loops/ifs/etc.
+" (zR expands all fold in the file)
+
+" Use undofile
+set undodir=~/.vim/undodir
+set undofile
+
+" Ctrl+n to toggle between relative and absolute line numbers
+function! NumberToggle()
+  if(&relativenumber == 1)
+    set number
+  else
+    set relativenumber
+  endif
+endfunc
+
+nnoremap <C-n> :call NumberToggle()<cr>
