@@ -4,9 +4,6 @@
 
 git submodule init
 git submodule update
-cd vim/bundle/pyflakes-vim
-git submodule init
-git submodule update
 
 DOTFILES="
 	vim 
@@ -22,9 +19,6 @@ DOTFILES="
 
 # Do the install
 cd $(dirname $0)
-
-git submodule init
-git submodule update
 
 for file in $DOTFILES; do
 	echo "Linking $file"
