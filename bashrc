@@ -135,5 +135,9 @@ shopt -s histappend
 PROMPT_COMMAND="history -a; $PROMPT_COMMAND"
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
 
+# Stuff that shouldn't really be in .bashrc:
+
 # Swap CapsLock to Escape:
-xmodmap -e 'clear Lock' -e 'keycode 0x42 = Escape' -e 'keycode 0x9 = Caps_Lock'
+xmodmap -e 'clear Lock' -e 'keycode 0x42 = Escape' -e 'keycode 0x9 = Caps_Lock' &> /dev/null
+# Two-/three-finger tap to middle-/right-click:
+synclient TapButton2=2 TapButton3=3

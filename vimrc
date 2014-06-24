@@ -1,3 +1,6 @@
+filetype off
+execute pathogen#infect()
+
 set nocompatible	" Disable backwards compatibility
 
 set tabstop=4
@@ -64,7 +67,7 @@ map ,c :s/^\/\/\\|^--\\|^> \\|^[#"%!;]//<CR>:nohlsearch<CR>
 set showtabline=0	" Hide tab line
 
 " Turn on omni completion
-filetype plugin on
+filetype plugin indent on
 set ofu=syntaxcomplete#Complete
 
 " Highlight word under cursor.
