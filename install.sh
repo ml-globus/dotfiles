@@ -2,6 +2,12 @@
 
 #Config
 
+git submodule init
+git submodule update
+cd vim/bundle/pyflakes-vim
+git submodule init
+git submodule update
+
 DOTFILES="
 	vim 
 	vimrc 
