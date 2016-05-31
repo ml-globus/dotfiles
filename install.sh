@@ -24,3 +24,5 @@ for file in $DOTFILES; do
 	echo "Linking $file"
 	ln -sfT $PWD/$file ~/.$file
 done
+
+wget -O vim/plugin/pythonhelper.vim http://www.vim.org/scripts/download_script.php?src_id=12010

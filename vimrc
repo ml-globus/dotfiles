@@ -109,9 +109,12 @@ au FileType yaml set softtabstop=2
 set undodir=~/.vim/undodir
 set undofile
 
-" Ctrl+n to toggle between relative and absolute line numbers
+" Ctrl+n to toggle between relative and absolute line numbers, default to
+" relative
+set relativenumber
 function! NumberToggle()
   if(&relativenumber == 1)
+    set relativenumber! " Started needing this after a vim upgrade, not sure why
     set number
   else
     set relativenumber

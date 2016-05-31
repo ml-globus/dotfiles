@@ -9,6 +9,7 @@ PACKAGES="
 	vagrant
 	synaptic
 	pidgin
+	ctags
 "
 
 apt-get update
