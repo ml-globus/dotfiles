@@ -141,7 +141,7 @@ PROMPT_COMMAND="history -a; $PROMPT_COMMAND"
 
 # Swap CapsLock to Escape:
 # Apparently no longer works in Ubuntu 14, had to use gnome-tweak-tool
-xmodmap -e 'clear Lock' -e 'keycode 0x42 = Escape' -e 'keycode 0x9 = Caps_Lock' &> /dev/null
+#xmodmap -e 'clear Lock' -e 'keycode 0x42 = Escape' -e 'keycode 0x9 = Caps_Lock' &> /dev/null
 # Two-/three-finger tap to middle-/right-click:
 synclient TapButton2=2 TapButton3=3
 

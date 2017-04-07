@@ -10,6 +10,8 @@ PACKAGES="
 	synaptic
 	pidgin
 	ctags
+	virtualenv
+	python-pip
 "
 
 apt-get update
