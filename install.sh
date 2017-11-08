@@ -27,5 +27,3 @@ for file in $DOTFILES; do
 done
 
 mkdir ~/.bash_logs # Needed by .bashrc
-
-wget -O vim/plugin/pythonhelper.vim http://www.vim.org/scripts/download_script.php?src_id=12010

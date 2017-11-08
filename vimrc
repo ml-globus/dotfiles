@@ -10,10 +10,16 @@ call vundle#begin()
 " " let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
 
+" Consistent navigation between vim and tmux splits:
 Plugin 'christoomey/vim-tmux-navigator'
+
+" Put Python <class>.<method> in statusline
+Plugin 'mgedmin/pythonhelper.vim'
+set statusline=%<%f\ %h%m%r\ %1*%{TagInStatusLine()}%*%=%-14.(%l,%c%V%)\ %P
 
 set nocompatible	" Disable backwards compatibility
 
+set expandtab
 set tabstop=4
 set shiftwidth=4	" To do block (un)indent using < and >.
 set softtabstop=4	" Treat 4 spaces as a tab for BACKSPACE and DELETE
@@ -106,8 +112,6 @@ nmap P :pu<CR>
 " automatically reload vimrc when it's saved
 au BufWritePost .vimrc so ~/.vimrc
 
-set expandtab
-
 " Python specific settings:
 " Expand tabs to spaces:
 " Folding options:
@@ -118,10 +122,6 @@ au FileType python vnoremap <space> zf
 au FileType python set foldnestmax=2 "Fold methods but not for-loops/ifs/etc.
 set foldlevelstart=99 " Don't fold when first opening a file
 " (zR expands all fold in the file, zm closes folds)
-
-" Time before CursorHold event is fired -- lower makes pythonhelper.vim more
-" responsive, too low makes everything else horrible...
-set updatetime=2000
 
 
 let g:pydoc_open_cmd = 'vsplit' " Use vsplit for python_pydoc.vim
