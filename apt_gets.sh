@@ -2,6 +2,7 @@
 
 PACKAGES="
 	vim 
+	vim-gtk
 	tree
 	htop
 	screen
@@ -12,6 +13,7 @@ PACKAGES="
 	ctags
 	virtualenv
 	python-pip
+	jq
 "
 
 apt-get update

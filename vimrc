@@ -1,6 +1,17 @@
 filetype off
 execute pathogen#infect()
 
+" set the runtime path to include Vundle and initialize
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+" " alternatively, pass a path where Vundle should install plugins
+" "call vundle#begin('~/some/path/here')
+
+" " let Vundle manage Vundle, required
+Plugin 'VundleVim/Vundle.vim'
+
+Plugin 'christoomey/vim-tmux-navigator'
+
 set nocompatible	" Disable backwards compatibility
 
 set tabstop=4
@@ -44,6 +55,11 @@ colorscheme zellner
 
 " Use mouse, but only in normal mode. Yay!
 set mouse=n
+" Make split resizing work in tmux
+if &term =~ '^screen'
+    " tmux knows the extended mouse mode
+    set ttymouse=xterm2
+endif
 
 " Tab completion behavior:
 set wildmode=longest,list,full
@@ -66,6 +82,10 @@ map ,c :s/^\/\/\\|^--\\|^> \\|^[#"%!;]//<CR>:nohlsearch<CR>
 
 set showtabline=0	" Hide tab line
 
+" Fancy % matching
+filetype plugin on
+runtime macros/matchit.vim
+
 " Turn on omni completion
 filetype plugin indent on
 set ofu=syntaxcomplete#Complete
@@ -76,14 +96,20 @@ autocmd CursorMoved * silent! exe printf('match IncSearch /\<%s\>/', expand('<cw
 " Make Y behave like other capitals
 map Y y$
 
+" Treat _ as word boundry (for w,e,b)
+" TODO: This messes up too much other stuff -- needs to apply _only_ to w+e+b
+"set iskeyword-=_
+
+" P pastes to new line
+nmap P :pu<CR>
+
 " automatically reload vimrc when it's saved
 au BufWritePost .vimrc so ~/.vimrc
 
-
+set expandtab
 
 " Python specific settings:
 " Expand tabs to spaces:
-au FileType python set expandtab
 " Folding options:
 au FileType python set foldmethod=indent
 " Use space to open/close folds:
@@ -101,9 +127,14 @@ set updatetime=2000
 let g:pydoc_open_cmd = 'vsplit' " Use vsplit for python_pydoc.vim
 
 " YAML settings:
-au FileType yaml set expandtab
 au FileType yaml set tabstop=2
 au FileType yaml set softtabstop=2
+
+" HTML/Jinja2 settings
+au FileType html set tabstop=2
+au FileType html set softtabstop=2
+au FileType jinja2 set tabstop=2
+au FileType jinja2 set softtabstop=2
 
 " Use undofile
 set undodir=~/.vim/undodir
