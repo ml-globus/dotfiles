@@ -185,3 +185,12 @@ function extract {
     fi
 fi
 }
+
+# DuckDuckGo searches with W3M
+ddg () {
+    DDGQUERY=$1
+    for x in `seq 2 $#`; do
+        DDGQUERY=$DDGQUERY+${!x}
+    done
+    w3m https://duckduckgo.com/?q=$DDGQUERY
+}
