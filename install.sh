@@ -13,8 +13,6 @@ DOTFILES="
 	bash_logout 
 	bash_profile
 	inputrc
-	gconf/apps/gnome-terminal/profiles/Default/%gconf.xml
-	gconf/apps/gnome-terminal/keybindings/%gconf.xml
 "
 
 

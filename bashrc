@@ -77,9 +77,6 @@ esac
 if [ -x /usr/bin/dircolors ]; then
     test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
     alias ls='ls --color=auto'
-    #alias dir='dir --color=auto'
-    #alias vdir='vdir --color=auto'
-
     alias grep='grep --color=auto'
     alias fgrep='fgrep --color=auto'
     alias egrep='egrep --color=auto'
@@ -146,12 +143,6 @@ PROMPT_COMMAND="history -a; $PROMPT_COMMAND"
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
 
 # Stuff that shouldn't really be in .bashrc:
-
-# Swap CapsLock to Escape:
-# Apparently no longer works in Ubuntu 14, had to use gnome-tweak-tool
-#xmodmap -e 'clear Lock' -e 'keycode 0x42 = Escape' -e 'keycode 0x9 = Caps_Lock' &> /dev/null
-# Two-/three-finger tap to middle-/right-click:
-synclient TapButton2=2 TapButton3=3
 
 # Extract various archive formats
 function extract {
