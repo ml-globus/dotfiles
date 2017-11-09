@@ -151,5 +151,8 @@ function! NumberToggle()
     set relativenumber
   endif
 endfunc
-
 nnoremap <C-n> :call NumberToggle()<cr>
+
+" Ctrl+c copies into system clipboard -- works over SSH if X11 forwarding is
+" enbabled and the host is running a X11 server with clipboard sync.
+vnoremap <C-c> "+y
