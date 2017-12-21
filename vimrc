@@ -1,3 +1,12 @@
+" WISHLIST:
+" - Auto-fill comments up to one blank line, and remove trailing blank lines
+"   after that. E.g, typing: "# Comment<CR><CR>More comments<CR><CR><CR>"
+"   would result in:
+"       # Comment
+"       #
+"       # More comments
+
+
 filetype off
 execute pathogen#infect()
 
@@ -14,8 +23,28 @@ Plugin 'VundleVim/Vundle.vim'
 Plugin 'christoomey/vim-tmux-navigator'
 
 " Put Python <class>.<method> in statusline
+" TODO: get this to work with vim-airline
 Plugin 'mgedmin/pythonhelper.vim'
 set statusline=%<%f\ %h%m%r\ %1*%{TagInStatusLine()}%*%=%-14.(%l,%c%V%)\ %P
+
+" ALE - Async (Python) Lint Engine -- requires VIM 8.0
+Plugin 'w0rp/ale'
+nmap <silent> <C-n> <Plug>(ale_next_wrap)
+nmap <silent> <C-m> <Plug>(ale_previous_wrap)
+
+Plugin 'vim-airline/vim-airline'
+
+" Jedi autocompletion -- assumes jedi has been pip installed
+" Use this to get virtualenvs working until it gets resolved for real:
+" https://github.com/davidhalter/jedi/pull/829/commits/2ca6dd4a98a9f420d5c547c08aa1f9dfd6bd9801
+Plugin 'davidhalter/jedi-vim'
+let g:jedi#use_tabs_not_buffers = 1
+
+" Bash-like tab completion:
+Plugin 'ervandew/supertab'
+
+" Indentation based selections
+Plugin 'michaeljsmith/vim-indent-object'
 
 set nocompatible	" Disable backwards compatibility
 
@@ -58,6 +87,7 @@ set ignorecase
 set smartcase		" Don't ignore when mixing upper and lower case
 
 colorscheme zellner
+highlight clear SignColumn
 
 " Use mouse, but only in normal mode. Yay!
 set mouse=n
@@ -82,11 +112,7 @@ map ,; :s/^/;/<CR>:nohlsearch<CR>
 map ,- :s/^/--/<CR>:nohlsearch<CR>
 map ,c :s/^\/\/\\|^--\\|^> \\|^[#"%!;]//<CR>:nohlsearch<CR>
 
-" Press jj within <timoutlen> ms to exit insert mode. This messes up block commenting though...
-"imap jj <Esc>       
-"set timeoutlen=200  
-
-set showtabline=0	" Hide tab line
+set showtabline=0	" Hide tab page label line
 
 " Fancy % matching
 filetype plugin on
@@ -97,20 +123,38 @@ filetype plugin indent on
 set ofu=syntaxcomplete#Complete
 
 " Highlight word under cursor.
-autocmd CursorMoved * silent! exe printf('match IncSearch /\<%s\>/', expand('<cword>'))
+"autocmd CursorMoved * silent! exe printf('match IncSearch /\<%s\>/', expand('<cword>'))
 
 " Make Y behave like other capitals
 map Y y$
 
-" Treat _ as word boundry (for w,e,b)
-" TODO: This messes up too much other stuff -- needs to apply _only_ to w+e+b
-"set iskeyword-=_
+" Treat _ as a word-boundry, but only for 'w' so it doesn't mess up syntax
+" highlighting/auto-complete/etc. 'noremap' applies it non-recursively (so 'w'
+" works as normal inside the function) to all non-insert modes, so it also
+" works as a motion-modifier. 
+" TODO: Apply this to other motion commands as well
+function! UnderscoreWord()
+    set iskeyword-=_
+    normal! w
+    set iskeyword+=_
+endfunc
+noremap <silent> w :call UnderscoreWord()<cr>
 
 " P pastes to new line
 nmap P :pu<CR>
 
+" Cmd+j un-joins line
+" TODO: should also trim trailing whitespace
+nnoremap <D-j> i<CR><Esc>
+
+" Ctrl-V and Cmd-V pastes from system clipboard, without needing to
+" set paste/set nopaste
+imap <C-v> ^O"+p
+imap <D-v> ^O"+p
+
 " automatically reload vimrc when it's saved
-au BufWritePost .vimrc so ~/.vimrc
+" Suspect this may be causing intermittent hangs
+" au BufWritePost .vimrc so ~/.vimrc
 
 " Python specific settings:
 " Expand tabs to spaces:
@@ -123,8 +167,8 @@ au FileType python set foldnestmax=2 "Fold methods but not for-loops/ifs/etc.
 set foldlevelstart=99 " Don't fold when first opening a file
 " (zR expands all fold in the file, zm closes folds)
 
-
 let g:pydoc_open_cmd = 'vsplit' " Use vsplit for python_pydoc.vim
+autocmd BufWritePre *.py :%s/\s\+$//e " Shave trailing whitespace on write
 
 " YAML settings:
 au FileType yaml set tabstop=2
@@ -142,16 +186,16 @@ set undofile
 
 " Ctrl+n to toggle between relative and absolute line numbers, default to
 " relative
-set relativenumber
-function! NumberToggle()
-  if(&relativenumber == 1)
-    set relativenumber! " Started needing this after a vim upgrade, not sure why
-    set number
-  else
-    set relativenumber
-  endif
-endfunc
-nnoremap <C-n> :call NumberToggle()<cr>
+"set relativenumber
+"function! NumberToggle()
+"  if(&relativenumber == 1)
+"    set relativenumber!
+"    set number
+"  else
+"    set relativenumber
+"  endif
+"endfunc
+"nnoremap <C-n> :call NumberToggle()<cr>
 
 " Ctrl+c copies into system clipboard -- works over SSH if X11 forwarding is
 " enbabled and the host is running a X11 server with clipboard sync.

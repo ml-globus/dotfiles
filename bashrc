@@ -185,3 +185,5 @@ ddg () {
     done
     w3m https://duckduckgo.com/?q=$DDGQUERY
 }
+
+source ~/.globusshortcuts.sh
