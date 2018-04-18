@@ -133,12 +133,13 @@ map Y y$
 " works as normal inside the function) to all non-insert modes, so it also
 " works as a motion-modifier. 
 " TODO: Apply this to other motion commands as well
-function! UnderscoreWord()
-    set iskeyword-=_
-    normal! w
-    set iskeyword+=_
-endfunc
-noremap <silent> w :call UnderscoreWord()<cr>
+" TODO: Breaks `c<n>w` and other things...
+"function! UnderscoreWord()
+"    set iskeyword-=_
+"    normal! w
+"    set iskeyword+=_
+"endfunc
+"noremap <silent> w :call UnderscoreWord()<cr>
 
 " P pastes to new line
 nmap P :pu<CR>
@@ -198,5 +199,30 @@ set undofile
 "nnoremap <C-n> :call NumberToggle()<cr>
 
 " Ctrl+c copies into system clipboard -- works over SSH if X11 forwarding is
-" enbabled and the host is running a X11 server with clipboard sync.
+" enabled and the host is running a X11 server with clipboard sync.
 vnoremap <C-c> "+y
+
+function! SweType()
+    setlocal keymap=swe-us
+    setlocal spelllang=sv
+endfunction
+
+function! EngType()
+    setlocal keymap=
+    setlocal spelllang=en_us
+endfunction
+
+function! Prose()
+    setlocal textwidth=80
+    setlocal formatoptions+=a " Auto-reflow paragraphs.
+    setlocal spell
+    " Spelling cheat-sheet: 
+    "
+    " Next/prev misspelled word: [s / ]s
+    " Mark as correct: zg
+    " Mark as incorrect: zw
+endfunction
+
+" Unintrusive highlighting for misspelled words
+hi clear SpellBad
+hi SpellBad cterm=underline
