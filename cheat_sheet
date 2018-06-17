@@ -1,0 +1,65 @@
+VIM
+===
+
+<leader> is \ by default
+
+movement/selection:
+    $               EOL 
+    0               Beginning of line
+    ^               First white-space char
+    {/}             Move up/down a paragraph
+    v/<term>        Mark forward from cursor to <term>
+    v?<term>        Mark backward from cursor to <term>
+    '[a-z]          Go to mark a-z, set by m[a-z]
+    v'[a-z]         Select from cursor to mark a-z
+    vi" / vi'       Select text inside "/'
+    v%              Select inside parenthesis (inclusive), if on starting/ending paren
+    vib             Select inside parenthesis (exclusive), if inside paren
+    <ctrl>o         Go back to previous location
+    <ctrl>i         Go forward to next location
+    `.              Go to last insert
+    :g/expr/y A     Yank all lines matching expr into register a. (May need to
+                    first empty it, e.g. by recording an empty macro: qaq)
+
+macros:
+    q               Start recording, followed by <char>, and stops recording
+    @<char>         Play macro <char>. Can be preceded by number
+    :%norm! @m      Apply macro m to every line of file
+
+misc:
+    !r <command>    Read output of command into current buffer
+    new|r! ls       Read output of command into new unnamed buffer (also works with tabnew)
+
+split navigation:
+    <ctrl>h/j/k/l   Also works for navigating to/from tmux panes
+    <ctrl>w r       Rotate splits
+
+jedi-vim:
+    <leader>g       goto assignments
+    <leader>d       goto definitions
+    K               Show documentation
+    <leader>r       Renaming (seems broken: https://github.com/davidhalter/jedi-vim/issues/253)
+    <leader>n       Show all usages of a name
+    :Pyimport       Open module (e.g. :Pyimport os) -- mostly doesn't work...
+
+vim-indent-object:
+    <command>ai             <command> (i.e, v for select, d for delete, etc) current
+                            indent-level + the line that "initalizes" it (i.e func header)
+    <command><count>ai      <command> <count> indent levels + the line that "initalizes" it
+    <command><count>ii      Like above, but don't include lines above/below
+    <command><count>aI      Also include line that terminates the indentation
+
+ale:
+    <ctrl>n         Next error/warning
+    <ctrl>m         Previous error/warning
+
+TMUX
+====
+
+<prefix> is <ctrl>b by default
+
+pane navigation:
+    <ctrl>h/j/k/l   Also works for navigating to/from vim splits
+
+toggle zoom:
+    <prefix>z
