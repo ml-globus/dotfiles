@@ -29,4 +29,7 @@ ln -sfT $PWD/keymap/swe-us_utf-8.vim ~/.vim/keymap/swe-us_utf-8.vim
 
 git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
 
+# TODO: Get Vim8 or NeoVim by default
+# TODO: Run :PluginInstall automatically
+
 mkdir ~/.bash_logs # Needed by .bashrc
