@@ -35,3 +35,4 @@ vim +PluginInstall +qall # Run Vundle installs
 # TODO: Run :PluginInstall automatically
 
 mkdir ~/.bash_logs # Needed by .bashrc
+source ~/.bashrc
