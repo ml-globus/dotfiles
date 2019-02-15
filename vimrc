@@ -46,6 +46,9 @@ Plugin 'ervandew/supertab'
 " Indentation based selections
 Plugin 'michaeljsmith/vim-indent-object'
 
+" Intelligently reopen files at your last edit position.
+Plugin 'farmergreg/vim-lastplace'
+
 set nocompatible	" Disable backwards compatibility
 
 set expandtab

@@ -8,10 +8,11 @@ git submodule update
 DOTFILES="
 	vim 
 	vimrc 
-    tmux.conf
+	tmux.conf
 	bashrc 
 	bash_logout 
 	bash_profile
+	psqlrc
 	inputrc
 "
 
