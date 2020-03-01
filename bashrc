@@ -192,3 +192,7 @@ ddg () {
     done
     w3m https://duckduckgo.com/?q=$DDGQUERY
 }
+
+source ~/.globusshortcuts.sh
+GLOBUS_OPS_KEYPAIR=mattias # Personal dev account -- mattias@globus.org
+EC2SSH_PUBLIC_IP=1
