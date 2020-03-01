@@ -19,6 +19,14 @@ set runtimepath+=~/.vim/bundle/Vundle.vim   " Vundle needs to be git cloned here
 call vundle#begin('~/.vim/bundle')          " Path where Vundle installs plugins
 Plugin 'VundleVim/Vundle.vim'               " Let Vundle manage Vundle, required
 
+" Show git diff in sign column ("gutter"):
+Plugin 'airblade/vim-gitgutter'
+" `updatetime` is the number of milliseconds with no keypresses before vim writes to
+" swap file. Also affects how quickly vim-gitgutter notices changes.
+set updatetime=100
+" Max number of changes can be limited for performance:
+"let g:gitgutter_max_signs = 500  " 500 is default
+
 " Consistent navigation between vim and tmux splits using CTRL-<hjkl>
 Plugin 'christoomey/vim-tmux-navigator'
 
