@@ -3,9 +3,12 @@ set nocompatible   " Disable backwards compatibility
 " adds a default plugin which interferes with something:
 "
 " `:scriptnames` lists all loaded plugins and vimrcs, including everything included by default.
+" `:function` lists all functions
+" `:function <func` shows details about `<func>`
 " `:set runtimepath` to track down where it came from in the first place.
 " `:set all` shows current options except terminal.
 " `:set` shows all options that differ from their default value.
+" `:verbose set <thing>?` shows where <thing> was set
 " <F10> to see highlight group word under cursor belongs to -- for debugging
 " colorshemes and syntax files:
 nmap <silent> <F10>   :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<' . synIDattr(synID(line("."),col("."),0),"name") . "> lo<" . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
