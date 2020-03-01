@@ -146,11 +146,11 @@ function! GitStatus()
 endfunction
 
 set statusline=
-set statusline+=%#PmenuSel#
+set statusline+=%#PmenuSel#             " This sets highlight group (color)
 set statusline+=%{GitStatus()}
 set statusline+=%#LineNr#
 set statusline+=\ %f
-set statusline+=%m\ " Trailing whitespace really needed...
+set statusline+=%m\                     " Trailing whitespace really needed
 set statusline+=%{taghelper#curtag()}
 set statusline+=%=
 set statusline+=%#CursorColumn#
@@ -159,4 +159,4 @@ set statusline+=\ %{&fileencoding?&fileencoding:&encoding}
 set statusline+=\[%{&fileformat}\]
 set statusline+=\ %p%%
 set statusline+=\ %l:%c
-set statusline+=\ " Trailing whitespace really needed...
+set statusline+=\                       " Trailing whitespace really needed...
