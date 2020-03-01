@@ -6,14 +6,15 @@ git submodule init
 git submodule update
 
 DOTFILES="
-	vim
-	vimrc
-	tmux.conf
-	bashrc
-	bash_logout
-	bash_profile
-	psqlrc
-	inputrc
+    vim
+    vimrc
+    tmux.conf
+    gitmux.conf
+    bashrc
+    bash_logout
+    bash_profile
+    psqlrc
+    inputrc
 "
 
 
