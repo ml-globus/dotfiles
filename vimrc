@@ -27,6 +27,9 @@ set updatetime=100
 " Max number of changes can be limited for performance:
 "let g:gitgutter_max_signs = 500  " 500 is default
 
+" Get current tag (e.g. `class.method`) in status bar:
+Plugin 'mgedmin/taghelper.vim'
+
 " Consistent navigation between vim and tmux splits using CTRL-<hjkl>
 Plugin 'christoomey/vim-tmux-navigator'
 
@@ -141,14 +144,14 @@ function! GitStatus()
   let [a,m,r] = GitGutterGetHunkSummary()
   return printf('+%d ~%d -%d', a, m, r)
 endfunction
-"set statusline+=%{GitStatus()}
 
 set statusline=
 set statusline+=%#PmenuSel#
 set statusline+=%{GitStatus()}
 set statusline+=%#LineNr#
 set statusline+=\ %f
-set statusline+=%m\
+set statusline+=%m\ " Trailing whitespace really needed...
+set statusline+=%{taghelper#curtag()}
 set statusline+=%=
 set statusline+=%#CursorColumn#
 set statusline+=\ %y
