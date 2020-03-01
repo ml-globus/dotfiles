@@ -27,6 +27,18 @@ set updatetime=100
 " Max number of changes can be limited for performance:
 "let g:gitgutter_max_signs = 500  " 500 is default
 
+" Asynchronous Lint Engine -- acts as an LSP client
+let g:ale_sign_error = '☠️' " Is the world finally ready for unicode in the terminal...?
+hi ALEErrorSign ctermbg=black
+let g:ale_sign_warning = '⚠️'
+hi ALEWarningSign ctermbg=black
+" g:ale_lint_delay is #ms after typing stops before linter is run. Default 200.
+" May be a performance hog.
+let g:ale_lint_delay = 50
+Plugin 'w0rp/ale'
+nmap <silent> <C-n> <Plug>(ale_next_wrap)
+nmap <silent> <C-m> <Plug>(ale_previous_wrap)
+
 " Get current tag (e.g. `class.method`) in status bar:
 Plugin 'mgedmin/taghelper.vim'
 
@@ -145,6 +157,22 @@ function! GitStatus()
   return printf('+%d ~%d -%d', a, m, r)
 endfunction
 
+function! ALEErrors() abort
+    " Return " E: <number-of-ale-errors> ", or an empty string
+    let l:counts = ale#statusline#Count(bufnr(''))
+    let l:all_errors = l:counts.error + l:counts.style_error
+    return l:all_errors == 0 ? '' : printf(' E: %d ',  all_errors)
+endfunction
+
+function! ALEWarnings() abort
+    " Return " W: <number-of-ale-warnings> ", or an empty string
+    let l:counts = ale#statusline#Count(bufnr(''))
+    let l:all_errors = l:counts.error + l:counts.style_error
+    let l:all_non_errors = l:counts.total - l:all_errors
+    return l:all_non_errors == 0 ? '' : printf(' W: %d ',  all_non_errors)
+endfunction
+highlight WarningMsg ctermbg=yellow guibg=yellow ctermfg=black guifg=black
+
 set statusline=
 set statusline+=%#PmenuSel#             " This sets highlight group (color)
 set statusline+=%{GitStatus()}
@@ -160,3 +188,7 @@ set statusline+=\[%{&fileformat}\]
 set statusline+=\ %p%%
 set statusline+=\ %l:%c
 set statusline+=\                       " Trailing whitespace really needed...
+set statusline+=%#ErrorMsg#
+set statusline+=%{ALEErrors()}
+set statusline+=%#WarningMsg#
+set statusline+=%{ALEWarnings()}
