@@ -1,74 +1,57 @@
-" WISHLIST:
-" - Auto-fill comments up to one blank line, and remove trailing blank lines
-"   after that. E.g, typing: "# Comment<CR><CR>More comments<CR><CR><CR>"
-"   would result in:
-"       # Comment
-"       #
-"       # More comments
+set nocompatible   " Disable backwards compatibility
+" Notes on tracking down inexplicable behavior, e.g. when a new Vim version
+" adds a default plugin which interferes with something:
+"
+" `:scriptnames` lists all loaded plugins and vimrcs, including everything included by default.
+" `:set runtimepath` to track down where it came from in the first place.
+" `:set all` shows current options except terminal.
+" `:set` shows all options that differ from their default value.
+" <F10> to see highlight group word under cursor belongs to -- for debugging
+" colorshemes and syntax files:
+nmap <silent> <F10>   :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<' . synIDattr(synID(line("."),col("."),0),"name") . "> lo<" . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
 
+" Vundle package manager setup:
+filetype off                                " Required by Vundle, re-enabled later
+set runtimepath+=~/.vim/bundle/Vundle.vim   " Vundle needs to be git cloned here
+call vundle#begin('~/.vim/bundle')          " Path where Vundle installs plugins
+Plugin 'VundleVim/Vundle.vim'               " Let Vundle manage Vundle, required
 
-filetype off
-execute pathogen#infect()
-
-" set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-" " alternatively, pass a path where Vundle should install plugins
-" "call vundle#begin('~/some/path/here')
-
-" " let Vundle manage Vundle, required
-Plugin 'VundleVim/Vundle.vim'
-
-" Consistent navigation between vim and tmux splits:
+" Consistent navigation between vim and tmux splits using CTRL-<hjkl>
 Plugin 'christoomey/vim-tmux-navigator'
 
-" Put Python <class>.<method> in statusline
-" TODO: get this to work with vim-airline
-Plugin 'mgedmin/pythonhelper.vim'
-set statusline=%<%f\ %h%m%r\ %1*%{TagInStatusLine()}%*%=%-14.(%l,%c%V%)\ %P
+" Fancy replacement for builtin matchit plugin. Additional config for matches below.
+" By default it shows off-screen matches in the status bar. Disable:
+let g:matchup_matchparen_offscreen = {'method': 'status_manual'}
+" Adds a small delay so it's not constantly recomputing when moving cursor,
+" for performance reasons:
+let g:matchup_matchparen_deferred = 1
+let g:matchup_matchparen_deferred_show_delay = 25
+Plugin 'andymass/vim-matchup'
 
-" ALE - Async (Python) Lint Engine -- requires VIM 8.0
-Plugin 'w0rp/ale'
-nmap <silent> <C-n> <Plug>(ale_next_wrap)
-nmap <silent> <C-m> <Plug>(ale_previous_wrap)
+" Colorsheme packs:
+Plugin 'danilo-augusto/vim-afterglow'
 
-Plugin 'vim-airline/vim-airline'
+call vundle#end()   " Required -- all Plugins must be added before this line
+filetype on         " Re-enable filetype detection; syntax highlighting, options, etc.
+                    " (all `FileType` configs must come after this)
+filetype plugin on  " Load plugins for specific filetypes
+filetype indent on  " Load filetype specific indent rules
 
-" Jedi autocompletion -- assumes jedi has been pip installed
-" Use this to get virtualenvs working until it gets resolved for real:
-" https://github.com/davidhalter/jedi/pull/829/commits/2ca6dd4a98a9f420d5c547c08aa1f9dfd6bd9801
-Plugin 'davidhalter/jedi-vim'
-let g:jedi#use_tabs_not_buffers = 1
+syntax on           " Enable syntax highlighting
 
-" Bash-like tab completion:
-Plugin 'ervandew/supertab'
+let g:afterglow_inherit_background=1 " Make afterglow play nicely with terminal/tmux
+colorscheme afterglow
 
-" Indentation based selections
-Plugin 'michaeljsmith/vim-indent-object'
+set expandtab       " Expand <Tab> to spaces in insert mode. CTRL-V<Tab> forces real tab
+set tabstop=4       " <Tab> == 4 spaces
+set softtabstop=4   " Treat 4 spaces as a tab for BACKSPACE and DELETE
+set autoindent      " Auto-indent reasonably for filetypes without specific indentation rules
 
-" Intelligently reopen files at your last edit position.
-Plugin 'farmergreg/vim-lastplace'
+set backspace=indent,eol,start " Make backspace behave normally in insert mode
 
-set nocompatible	" Disable backwards compatibility
-
-set expandtab
-set tabstop=4
-set shiftwidth=4	" To do block (un)indent using < and >.
-set softtabstop=4	" Treat 4 spaces as a tab for BACKSPACE and DELETE
-set autoindent
-syntax on
-set showmatch		" Matching parentheses
-
-set number			" Show line number
-set laststatus=2    " Show buffer name in status line
-
-" Backspace behavior in insert mode:
-set backspace=indent,eol,start
-" Wrap using cursor and h / l keys:
-set whichwrap+=<,>,h,l,[,]
-" Wrap long lines between words:
-set wrap lbr
-" Make up/down/home/end use display line instead of physical line.
+set wrap linebreak          " Wrap long lines at word boundries
+set whichwrap+=<,>,h,l,[,]  " Wrap using cursor and h / l keys:
+" Make up/down/home/end use display line instead of physical line:
 nnoremap j gj
 nnoremap k gk
 vnoremap j gj
@@ -84,25 +67,45 @@ nnoremap <End>  g<End>
 vnoremap <Home> g<Home>
 vnoremap <End>  g<End>
 
-set incsearch		" Incremental search
-set hlsearch		" Highligt matches
-set ignorecase 
-set smartcase		" Don't ignore when mixing upper and lower case
+set number          " Show line number
+set laststatus=2    " Always show statusline, even with just one window
+set showtabline=0   " Hide tab page label line
 
-colorscheme zellner
-highlight clear SignColumn
+set incsearch       " Incremental search
+set hlsearch        " Highligt matches
+set ignorecase      " Case-insensitive search...
+set smartcase       " ...except when mixing upper and lower case
+" Search result styling:
+hi clear Search     " Disable whatever the current colorscheme did
+hi Search ctermbg=black guibg=black cterm=bold gui=bold
 
-" Use mouse, but only in normal mode. Yay!
-set mouse=n
-" Make split resizing work in tmux
-if &term =~ '^screen'
-    " tmux knows the extended mouse mode
-    set ttymouse=xterm2
-endif
+" Highlight words matching word under cursor:
+"autocmd CursorMoved * silent! exe printf('match IncSearch /\<%s\>/', expand('<cword>'))
 
-" Tab completion behavior:
-set wildmode=longest,list,full
-set wildmenu
+" Matching -- character/word group you can jump between with `%`:
+"set matchpairs=(:),{:},[:],<:> " Not needed with vim-matchup
+" Italicize matched words:
+hi clear MatchParen
+hi MatchParen cterm=italic gui=italic
+" Adds rudimentary but janky support for matching Python syntax (which
+" vim-matchup and seemingly every other matching plugin doesn't support).
+" Details here: https://github.com/andymass/vim-matchup/issues/68
+" Groups are comma-separated, terms in the group are colon separated.
+autocmd FileType python let b:match_words = '^\(\s*\)\<if\>:^\1\<elif\>:^\1\<else\>,^\(\s*\)\<try\>:^\1\<except\>:^\1\<else\>'
+
+" Highlight trailing whitespace, but not in insert mode:
+highlight ExtraWhitespace ctermbg=red guibg=red
+match ExtraWhitespace /\s\+$/
+autocmd BufWinEnter * match ExtraWhitespace /\s\+$/
+autocmd InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
+autocmd InsertLeave * match ExtraWhitespace /\s\+$/
+" Trim trailing whitespace for whole file:
+function! TrimWhiteSpace()
+            %s/\s\+$//e
+endfunction
+
+set mouse=n         " Use mouse, but only in normal mode.
+set ttymouse=sgr    " Needed for mouse to work with wide (>220 cols) terminals.
 
 " Comment out visual block using ,<comment sign>, uncomment using ,c.
 map ,# :s/^/#/<CR>:nohlsearch<CR>
@@ -115,117 +118,7 @@ map ,; :s/^/;/<CR>:nohlsearch<CR>
 map ,- :s/^/--/<CR>:nohlsearch<CR>
 map ,c :s/^\/\/\\|^--\\|^> \\|^[#"%!;]//<CR>:nohlsearch<CR>
 
-set showtabline=0	" Hide tab page label line
-
-" Fancy % matching
-filetype plugin on
-runtime macros/matchit.vim
-
-" Turn on omni completion
-filetype plugin indent on
-set ofu=syntaxcomplete#Complete
-
-" Highlight word under cursor.
-"autocmd CursorMoved * silent! exe printf('match IncSearch /\<%s\>/', expand('<cword>'))
-
-" Make Y behave like other capitals
+" Make Y behave like other capitals -- yank rest of line:
 map Y y$
-
-" Treat _ as a word-boundry, but only for 'w' so it doesn't mess up syntax
-" highlighting/auto-complete/etc. 'noremap' applies it non-recursively (so 'w'
-" works as normal inside the function) to all non-insert modes, so it also
-" works as a motion-modifier. 
-" TODO: Apply this to other motion commands as well
-" TODO: Breaks `c<n>w` and other things...
-"function! UnderscoreWord()
-"    set iskeyword-=_
-"    normal! w
-"    set iskeyword+=_
-"endfunc
-"noremap <silent> w :call UnderscoreWord()<cr>
-
-" P pastes to new line
+" P pastes to new line, even if register doesn't have a newline char:
 nmap P :pu<CR>
-
-" Cmd+j un-joins line
-" TODO: should also trim trailing whitespace
-nnoremap <D-j> i<CR><Esc>
-
-" Ctrl-V and Cmd-V pastes from system clipboard, without needing to
-" set paste/set nopaste
-imap <C-v> ^O"+p
-imap <D-v> ^O"+p
-
-" automatically reload vimrc when it's saved
-" Suspect this may be causing intermittent hangs
-" au BufWritePost .vimrc so ~/.vimrc
-
-" Python specific settings:
-" Expand tabs to spaces:
-" Folding options:
-au FileType python set foldmethod=indent
-" Use space to open/close folds:
-au FileType python nnoremap <space> za
-au FileType python vnoremap <space> zf
-au FileType python set foldnestmax=2 "Fold methods but not for-loops/ifs/etc.
-set foldlevelstart=99 " Don't fold when first opening a file
-" (zR expands all fold in the file, zm closes folds)
-
-let g:pydoc_open_cmd = 'vsplit' " Use vsplit for python_pydoc.vim
-autocmd BufWritePre *.py :%s/\s\+$//e " Shave trailing whitespace on write
-
-" YAML settings:
-au FileType yaml set tabstop=2
-au FileType yaml set softtabstop=2
-
-" HTML/Jinja2 settings
-au FileType html set tabstop=2
-au FileType html set softtabstop=2
-au FileType jinja2 set tabstop=2
-au FileType jinja2 set softtabstop=2
-
-" Use undofile
-set undodir=~/.vim/undodir
-set undofile
-
-" Ctrl+n to toggle between relative and absolute line numbers, default to
-" relative
-"set relativenumber
-"function! NumberToggle()
-"  if(&relativenumber == 1)
-"    set relativenumber!
-"    set number
-"  else
-"    set relativenumber
-"  endif
-"endfunc
-"nnoremap <C-n> :call NumberToggle()<cr>
-
-" Ctrl+c copies into system clipboard -- works over SSH if X11 forwarding is
-" enabled and the host is running a X11 server with clipboard sync.
-vnoremap <C-c> "+y
-
-function! SweType()
-    setlocal keymap=swe-us
-    setlocal spelllang=sv
-endfunction
-
-function! EngType()
-    setlocal keymap=
-    setlocal spelllang=en_us
-endfunction
-
-function! Prose()
-    setlocal textwidth=80
-    setlocal formatoptions+=a " Auto-reflow paragraphs.
-    setlocal spell
-    " Spelling cheat-sheet: 
-    "
-    " Next/prev misspelled word: [s / ]s
-    " Mark as correct: zg
-    " Mark as incorrect: zw
-endfunction
-
-" Unintrusive highlighting for misspelled words
-hi clear SpellBad
-hi SpellBad cterm=underline
