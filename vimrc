@@ -75,6 +75,8 @@ set incsearch       " Incremental search
 set hlsearch        " Highligt matches
 set ignorecase      " Case-insensitive search...
 set smartcase       " ...except when mixing upper and lower case
+nnoremap * g*       " Match partial when using `*`, so `foo` matches `foobar`
+nnoremap # g#       " Like `*` but backwards
 " Search result styling:
 hi clear Search     " Disable whatever the current colorscheme did
 hi Search ctermbg=black guibg=black cterm=bold gui=bold

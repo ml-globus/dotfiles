@@ -6,8 +6,10 @@ VIM
 movement/selection:
     $               EOL 
     0               Beginning of line
-    ^               First white-space char
+    ^               First non white-space char (e.g `d^` deletes from cursor to indentation)
     {/}             Move up/down a paragraph
+    <ctrl>e         Move screen down one line without moving cursor
+    <ctrl>y         Move screen up one line without moving cursor
     v/<term>        Mark forward from cursor to <term>
     v?<term>        Mark backward from cursor to <term>
     '[a-z]          Go to mark a-z, set by m[a-z]
@@ -29,6 +31,7 @@ macros:
 misc:
     !r <command>    Read output of command into current buffer
     new|r! ls       Read output of command into new unnamed buffer (also works with tabnew)
+    S               Delete line and put in insert mode, at the right indentation level
 
 split navigation:
     <ctrl>h/j/k/l   Also works for navigating to/from tmux panes
@@ -63,3 +66,12 @@ pane navigation:
 
 toggle zoom:
     <prefix>z
+
+split panes:
+    <prefix>"       Horizontal split
+    <prefix>%       Vertical split
+
+GIT
+===
+
+git remote show origin      # Show remote info

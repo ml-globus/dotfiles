@@ -5,6 +5,13 @@
 # If not running interactively, don't do anything
 [ -z "$PS1" ] && return
 
+# Set up/connect to SSH keyserver, so privkeys only have to be unlocked
+# once per login
+eval $(keychain --eval --quiet)
+
+# So CTRL-S won't lock the terminal, and can be used for other purposes:
+stty -ixon
+
 # don't put duplicate lines in the history. See bash(1) for more options
 # ... or force ignoredups and ignorespace
 HISTCONTROL=ignoredups:ignorespace
@@ -185,5 +192,3 @@ ddg () {
     done
     w3m https://duckduckgo.com/?q=$DDGQUERY
 }
-
-source ~/.globusshortcuts.sh
