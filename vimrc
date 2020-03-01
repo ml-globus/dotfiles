@@ -135,3 +135,25 @@ map ,c :s/^\/\/\\|^--\\|^> \\|^[#"%!;]//<CR>:nohlsearch<CR>
 map Y y$
 " P pastes to new line, even if register doesn't have a newline char:
 nmap P :pu<CR>
+
+" Set up statusline:
+function! GitStatus()
+  let [a,m,r] = GitGutterGetHunkSummary()
+  return printf('+%d ~%d -%d', a, m, r)
+endfunction
+"set statusline+=%{GitStatus()}
+
+set statusline=
+set statusline+=%#PmenuSel#
+set statusline+=%{GitStatus()}
+set statusline+=%#LineNr#
+set statusline+=\ %f
+set statusline+=%m\
+set statusline+=%=
+set statusline+=%#CursorColumn#
+set statusline+=\ %y
+set statusline+=\ %{&fileencoding?&fileencoding:&encoding}
+set statusline+=\[%{&fileformat}\]
+set statusline+=\ %p%%
+set statusline+=\ %l:%c
+set statusline+=\ " Trailing whitespace really needed...
