@@ -68,6 +68,12 @@ syntax on           " Enable syntax highlighting
 let g:afterglow_inherit_background=1 " Make afterglow play nicely with terminal/tmux
 colorscheme afterglow
 
+" Undo/history:
+set undodir=~/.vim/undodir
+set undofile
+set history=500     " Command-line history; default 50
+
+" Tab settings:
 set expandtab       " Expand <Tab> to spaces in insert mode. CTRL-V<Tab> forces real tab
 set tabstop=4       " <Tab> == 4 spaces
 set softtabstop=4   " Treat 4 spaces as a tab for BACKSPACE and DELETE
@@ -95,7 +101,8 @@ vnoremap <End>  g<End>
 
 set number          " Show line number
 set laststatus=2    " Always show statusline, even with just one window
-set showtabline=0   " Hide tab page label line
+set showtabline=1   " Show tab bar if there's more than one tab
+set showcmd         " Show partial commands (operator-pending mode) on last line
 
 set incsearch       " Incremental search
 set hlsearch        " Highligt matches
@@ -106,6 +113,10 @@ nnoremap # g#       " Like `*` but backwards
 " Search result styling:
 hi clear Search     " Disable whatever the current colorscheme did
 hi Search ctermbg=black guibg=black cterm=bold gui=bold
+
+" Command window tab completion behavior:
+set wildmenu
+set wildmode=list:longest
 
 " Highlight words matching word under cursor:
 "autocmd CursorMoved * silent! exe printf('match IncSearch /\<%s\>/', expand('<cword>'))
