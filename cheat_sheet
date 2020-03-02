@@ -29,8 +29,10 @@ macros:
     :%norm! @m      Apply macro m to every line of file
 
 misc:
-    !r <command>    Read output of command into current buffer
-    new|r! ls       Read output of command into new unnamed buffer (also works with tabnew)
+    :new            New [No Name] buffer
+    :!r <command>   Read output of command into current buffer
+    :new|r! ls      Read output of command into new unnamed buffer (also works with tabnew)
+    :!rm %          Delete file for current buffer
     S               Delete line and put in insert mode, at the right indentation level
 
 split navigation:
