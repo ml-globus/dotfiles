@@ -4,7 +4,7 @@ VIM
 <leader> is \ by default
 
 movement/selection:
-    $               EOL 
+    $               EOL
     0               Beginning of line
     ^               First non white-space char (e.g `d^` deletes from cursor to indentation)
     {/}             Move up/down a paragraph
@@ -56,6 +56,16 @@ ale:
     <ctrl>n         Next error/warning
     <ctrl>m         Previous error/warning
 
+vim-fugitive/vim-gitgutter:
+    :G              Git status. Can do numerous operations from here; press `g?` for details.
+                    Press enter on file to open. Refreshes automatically when you re-enter the split.
+    :Gblame         Git blame. Press `o` on commit to view commit details.
+    :Git <cmd> %    Does <cmd> (e.g. add/checkout/rm/mv) on current buffer
+    [c / ]c         Jump between change hunks (same as standard vimdiff)
+    <leader>hp      Preview hunk under cursor (vim-gitgutter)
+    <leader>hu      Undo hunk under cursor (vim-gitgutter)
+    <leader>hs      Stage hunk under cursor (vim-gitgutter)
+
 TMUX
 ====
 
@@ -75,3 +85,21 @@ GIT
 ===
 
 git remote show origin      # Show remote info
+git commit -v               # Only commit already staged changes; view changes while editing commit message
+git diff --staged           # Show only changes which have already been staged
+git commit -pv              # Interactively select chunks and commit in one go; view changes in commit message.
+                            # Option summary:
+                            #   y - stage this hunk
+                            #   n - do not stage this hunk
+                            #   q - quit; do not stage this hunk or any of the remaining ones
+                            #   a - stage this hunk and all later hunks in the file
+                            #   d - do not stage this hunk or any of the later hunks in the file
+                            #   g - select a hunk to go to
+                            #   / - search for a hunk matching the given regex
+                            #   j - leave this hunk undecided, see next undecided hunk
+                            #   J - leave this hunk undecided, see next hunk
+                            #   k - leave this hunk undecided, see previous undecided hunk
+                            #   K - leave this hunk undecided, see previous hunk
+                            #   s - split the current hunk into smaller hunks
+                            #   e - manually edit the current hunk
+                            #   ? - print help

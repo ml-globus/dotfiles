@@ -19,13 +19,17 @@ set runtimepath+=~/.vim/bundle/Vundle.vim   " Vundle needs to be git cloned here
 call vundle#begin('~/.vim/bundle')          " Path where Vundle installs plugins
 Plugin 'VundleVim/Vundle.vim'               " Let Vundle manage Vundle, required
 
-" Show git diff in sign column ("gutter"):
+" Show git diff in sign column ("gutter") and navigate/stage changes -- see
+" cheat sheet:
 Plugin 'airblade/vim-gitgutter'
 " `updatetime` is the number of milliseconds with no keypresses before vim writes to
 " swap file. Also affects how quickly vim-gitgutter notices changes.
 set updatetime=100
 " Max number of changes can be limited for performance:
 "let g:gitgutter_max_signs = 500  " 500 is default
+
+" Git wrapper -- see cheat sheet:
+Plugin 'tpope/vim-fugitive'
 
 " Asynchronous Lint Engine -- acts as an LSP client
 let g:ale_sign_error = '☠️' " Is the world finally ready for unicode in the terminal...?
