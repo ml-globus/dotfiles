@@ -89,6 +89,7 @@ GIT
 git remote show origin      # Show remote info
 git commit -v               # Only commit already staged changes; view changes while editing commit message
 git diff --staged           # Show only changes which have already been staged
+git show <revhash>          # Show commmit
 git commit -pv              # Interactively select chunks and commit in one go; view changes in commit message.
                             # Option summary:
                             #   y - stage this hunk
