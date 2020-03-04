@@ -56,6 +56,9 @@ Plugin 'alfredodeza/pytest.vim'
 Plugin 'davidhalter/jedi-vim'
 let g:jedi#use_splits_not_buffers = "left"
 
+" Do autocompletion using <Tab>:
+Plugin 'ervandew/supertab'
+
 " Fancy replacement for builtin matchit plugin. Additional config for matches below.
 " By default it shows off-screen matches in the status bar. Disable:
 let g:matchup_matchparen_offscreen = {'method': 'status_manual'}
