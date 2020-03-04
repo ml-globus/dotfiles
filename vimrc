@@ -49,6 +49,13 @@ Plugin 'mgedmin/taghelper.vim'
 " Consistent navigation between vim and tmux splits using CTRL-<hjkl>
 Plugin 'christoomey/vim-tmux-navigator'
 
+" Pytest test runner:
+Plugin 'alfredodeza/pytest.vim'
+
+" Autocompletion and other goodness using Jedi (same as IPython):
+Plugin 'davidhalter/jedi-vim'
+let g:jedi#use_splits_not_buffers = "left"
+
 " Fancy replacement for builtin matchit plugin. Additional config for matches below.
 " By default it shows off-screen matches in the status bar. Disable:
 let g:matchup_matchparen_offscreen = {'method': 'status_manual'}
