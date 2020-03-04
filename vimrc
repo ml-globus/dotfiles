@@ -46,8 +46,9 @@ nmap <silent> <C-m> <Plug>(ale_previous_wrap)
 " Get current tag (e.g. `class.method`) in status bar:
 Plugin 'mgedmin/taghelper.vim'
 
-" Sidebar for browsing tags. Toggle with CTRL-t:
+" Sidebar for browsing tags. Needs ctags-exuberant (sudo apt install ctags).
 Plugin 'majutsushi/tagbar'
+" Toggle with CTRL-t:
 nmap <C-t> :TagbarToggle<CR>
 
 " Consistent navigation between vim and tmux splits using CTRL-<hjkl>

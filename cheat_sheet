@@ -6,6 +6,7 @@ VIM
 movement/selection:
     $               EOL
     0               Beginning of line
+    b               Go back one word
     ^               First non white-space char (e.g `d^` deletes from cursor to indentation)
     {/}             Move up/down a paragraph
     <ctrl>e         Move screen down one line without moving cursor
